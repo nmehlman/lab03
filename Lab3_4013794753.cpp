@@ -5,6 +5,8 @@
 
 using namespace std;
 
+const int K = 10, M=20;
+
 //Number class:
 class Number{
 
@@ -25,60 +27,24 @@ class NumberSet{
 
     public:
     //Default constructor:
-    NumberSet():size(0),numbers(nullptr){}
+    NumberSet()=default;
     
     //Constructor:
-    NumberSet(int sz,const string &s): size(sz){ 
-        
-        numbers = new Number[size]; //Allocate memory for Number array
-        
+    NumberSet(const string &s){ 
+
         istringstream in(s);
         int i, count = 0;
-        while(in>>i)
+        while(count<K && in>>i)
         {
             numbers[count].set_value(i); //Read values in Number array
             count++;
         }
     }
 
-    //Copy construcotr:
-    NumberSet(const NumberSet &n): size(n.size){ 
-        
-        numbers = new Number[size]; //Allocate memory for Number array
-        
-        numbers = new Number[size];
-            for(int i=0;i<size;i++){
-                numbers[i] = n.numbers[i];
-            }
-
-    }
-
-    //Destructor:
-    ~NumberSet(){
-        delete[] numbers;
-    }
-    
-    //Assignment operator
-    NumberSet &operator = (NumberSet n){
-            size = n.size;
-            numbers = new Number[size];
-            for(int i=0;i<size;i++){
-                numbers[i] = n.numbers[i];
-            }
-            return *this;
-    }
-
-    //Move operator
-    NumberSet &operator = (NumberSet &&n){
-            size = n.size;
-            numbers = n.numbers;
-            return *this;
-    }
-
     //Check for independence with another set
     bool check_independence(NumberSet n){
-        for(int i=0;i<size;i++){
-            for(int k=0;k<n.size;k++){
+        for(int i=0;i<K;i++){
+            for(int k=0;k<K;k++){
                 if(numbers[i].get_value()==n.numbers[k].get_value())
                     return false;
             }
@@ -87,14 +53,13 @@ class NumberSet{
     }
 
     private:
-    int size;
-    Number *numbers;
+    Number numbers[K];
 
 };
 
 //Print NumberSet Objcet:
 void Print(NumberSet &n){
-    for(int i=0;i<n.size;i++){
+    for(int i=0;i<K;i++){
         cout<<n.numbers[i].get_value()<<" ";
     }
     cout<<endl;
@@ -105,21 +70,14 @@ int main(){
     ifstream in_file("input.txt");
     
     string line;
-    int num_subsets,subset_size,cnt=0;
-    
-    getline(in_file,line); //Read number of subsets in file
-    num_subsets = stoi(line);
-    NumberSet *sub_sets = new NumberSet[num_subsets]; //Allocate array of NumberSets to hold subsets
-    
+    NumberSet sub_sets[M];
+    int cnt=0;
+
     //Read input file
-    while(in_file && cnt<num_subsets){
-        getline(in_file,line); //Read subset size
-        if(in_file && !line.empty()) //Make sure line is not empty
-            subset_size = stoi(line);
-        
+    while(in_file && cnt<M){
         getline(in_file,line); //Read subset elements
         if(in_file && !line.empty()){ //Make sure line is not empty
-            NumberSet temp(subset_size,line);
+            NumberSet temp(line);
             sub_sets[cnt]= temp;
         }
         cnt++; 
@@ -127,8 +85,8 @@ int main(){
 
     //Test for independence:
     bool independent = false;
-    for(int i=0;i<num_subsets;i++){
-        for(int k=i+1;k<num_subsets;k++){
+    for(int i=0;i<M && !independent;i++){
+        for(int k=i+1;k<M && !independent;k++){
             if(sub_sets[i].check_independence(sub_sets[k])){
                 independent = true;
             }
