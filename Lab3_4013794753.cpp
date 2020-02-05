@@ -12,7 +12,7 @@ class Number{
 
     public:
     void set_value(int i){value = i;}
-    int get_value(){return value;}
+    int get_value() const{return value;}
 
     private:
     int value;
@@ -77,8 +77,7 @@ int main(){
     while(in_file && cnt<M){
         getline(in_file,line); //Read subset elements
         if(in_file && !line.empty()){ //Make sure line is not empty
-            NumberSet temp(line);
-            sub_sets[cnt]= temp;
+            sub_sets[cnt] = NumberSet(line); //Read in subsets
         }
         cnt++; 
     }
