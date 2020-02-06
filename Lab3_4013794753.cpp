@@ -83,11 +83,11 @@ int main(){
     }
 
     //Test for independence:
-    bool independent = false;
-    for(int i=0;i<M && !independent;i++){
-        for(int k=i+1;k<M && !independent;k++){
-            if(sub_sets[i].check_independence(sub_sets[k])){
-                independent = true;
+    bool independent = true;
+    for(int i=0;i<M && independent;i++){
+        for(int k=i+1;k<M && independent;k++){
+            if(!sub_sets[i].check_independence(sub_sets[k])){
+                independent = false;
             }
         }
     }
