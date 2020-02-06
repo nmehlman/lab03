@@ -53,12 +53,20 @@ class NumberSet{
 
     }
 
+    //Move constructor:
+    NumberSet(NumberSet &&n){
+            size = n.size;
+            delete []numbers; 
+            numbers = n.numbers;
+            n.numbers=nullptr;
+    }
+
     //Destructor:
     ~NumberSet(){
         delete[] numbers;
     }
     
-    //Assignment operator
+    //Copy assignment operator
     NumberSet &operator = (NumberSet n){
             size = n.size;
             numbers = new Number[size];
@@ -71,7 +79,9 @@ class NumberSet{
     //Move operator
     NumberSet &operator = (NumberSet &&n){
             size = n.size;
+            delete []numbers; 
             numbers = n.numbers;
+            n.numbers=nullptr;
             return *this;
     }
 
