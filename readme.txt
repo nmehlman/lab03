@@ -1,6 +1,14 @@
 Nick Mehlman
 4013794753
 
+Fot this lab, I created the number class, with the two functions. I also created the numberSet class, and elected
+to use a constructor that took a string parameter, so as to facilite reading from the file. The check independence
+function uses a simple nested for loop test of all element pairs. My main function simply reads the file line by 
+line and passes each line to a numberSet constructor. It then uses nested for loops to call check independece for
+all pairs of sets, and writes the result to the output.txt file
+
+Please compile using '-std=c++11'.
+
 Sources:
 
 1. https://en.cppreference.com/w/cpp/language/copy_assignment
